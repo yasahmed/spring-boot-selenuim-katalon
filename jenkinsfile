@@ -1,0 +1,5 @@
+cd drivers &&
+tar -xvzf geckodriver-v0.24.0-linux32.tar.gz &&
+cd .. &&
+apt-get install firefox-esr &&
+/opt/maven/bin/mvn clean install 
