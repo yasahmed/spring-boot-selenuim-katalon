@@ -32,6 +32,7 @@ public class Test {
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         System.setProperty("webdriver.gecko.driver", "/awb/var/lib/jenkins/workspace/EBK_TESTNg/test2/drivers/geckodriver");
+        System.setProperty("webdriver.firefox.bin", "/awb/var/lib/jenkins/workspace/EBK_TESTNg/test2/drivers/geckodrivere");
         FirefoxOptions firefoxOptions =  new FirefoxOptions();
         firefoxOptions.addArguments("--headless");
         driver = new FirefoxDriver(firefoxOptions);
