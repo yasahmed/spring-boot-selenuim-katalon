@@ -35,8 +35,8 @@ public class Test {
         System.setProperty("webdriver.firefox.bin", "/awb/var/lib/jenkins/workspace/EBK_TESTNg/test2/firefox-portable");
 
         FirefoxOptions firefoxOptions =  new FirefoxOptions();
-        firefoxOptions.addArguments("--headless");
-        firefoxOptions.setCapability("marionette", false);
+       // firefoxOptions.addArguments("--headless");
+       // firefoxOptions.setCapability("marionette", false);
         driver = new FirefoxDriver(firefoxOptions);
         baseUrl = "https://www.katalon.com/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
