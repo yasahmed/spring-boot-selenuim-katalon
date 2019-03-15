@@ -3,3 +3,5 @@ tar -xvzf geckodriver-v0.24.0-linux32.tar.gz &&
 cd .. &&
 apt-get install firefox-esr &&
 /opt/maven/bin/mvn clean install 
+
+https://download-installer.cdn.mozilla.net/pub/firefox/releases/60.5.2esr/linux-i686/en-US/firefox-60.5.2esr.tar.bz2
