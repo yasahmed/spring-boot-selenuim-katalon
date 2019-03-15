@@ -31,7 +31,7 @@ public class Test {
 
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
-        System.setProperty("webdriver.gecko.driver", "C:\\Users\\eessa\\Desktop\\katalan\\geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", "C:\\Users\\eessa\\Desktop\\katalan\\chromedriver.exe");
         FirefoxOptions firefoxOptions =  new FirefoxOptions();
         firefoxOptions.addArguments("--headless");
         driver = new FirefoxDriver(firefoxOptions);
