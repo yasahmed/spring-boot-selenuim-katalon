@@ -36,18 +36,18 @@ public class Test {
 
 
         FirefoxOptions firefoxOptions =  new FirefoxOptions();
-        //firefoxOptions.addArguments("--headless");
-       /* firefoxOptions.setCapability("marionette", true);
+        firefoxOptions.addArguments("--headless");
+        firefoxOptions.setCapability("marionette", true);
         driver = new FirefoxDriver(firefoxOptions);
         baseUrl = "https://www.katalon.com/";
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);*/
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @org.testng.annotations.Test
     public void testUntitledTestCase() throws Exception {
 
-        driver.get("https://www.rainworx.com/AWDemo31/Account/LogOn?returnUrl=%2FAWDemo31");
-     /*   driver.findElement(By.id("username")).click();
+     /*   driver.get("https://www.rainworx.com/AWDemo31/Account/LogOn?returnUrl=%2FAWDemo31");
+        driver.findElement(By.id("username")).click();
         driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys("Admin");
         driver.findElement(By.id("password")).clear();
