@@ -33,6 +33,7 @@ public class Test {
     public void setUp() throws Exception {
       //  System.setProperty("webdriver.gecko.driver", "yyyy");
        // System.setProperty("webdriver.firefox.bin", "kkk");
+         System.setProperty("webdriver.firefox.bin", "/tmp/firefox-portable");
 
 
         FirefoxOptions firefoxOptions =  new FirefoxOptions();
