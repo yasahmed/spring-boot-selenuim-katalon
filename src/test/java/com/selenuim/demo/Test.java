@@ -37,7 +37,7 @@ public class Test {
          System.setProperty("webdriver.gecko.driver", "/var/jenkins_home/workspace/toto2/drivers/geckodriver");
 
 
-        FirefoxOptions firefoxOptions =  new FirefoxOptions();
+       // FirefoxOptions firefoxOptions =  new FirefoxOptions();
       //  firefoxOptions.addArguments("--headless");
         firefoxOptions.setCapability("marionette", false);
         driver = new FirefoxDriver(firefoxOptions);
