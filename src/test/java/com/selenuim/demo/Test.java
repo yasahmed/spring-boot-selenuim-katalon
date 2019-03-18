@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.*;
 
 import static org.testng.Assert.*;
@@ -33,14 +34,25 @@ public class Test {
     public void setUp() throws Exception {
       //  System.setProperty("webdriver.gecko.driver", "yyyy");
        // System.setProperty("webdriver.firefox.bin", "kkk");
-         System.setProperty("webdriver.firefox.bin", "/tmp/firefox-portable/firefox-portable");
-         System.setProperty("webdriver.gecko.driver", "/var/jenkins_home/workspace/toto2/drivers/geckodriver");
+       //  System.setProperty("webdriver.firefox.bin", "/tmp/firefox-portable/firefox-portable");
+       //  System.setProperty("webdriver.gecko.driver", "/var/jenkins_home/workspace/toto2/drivers/geckodriver");
+
+
+
 
 
        // FirefoxOptions firefoxOptions =  new FirefoxOptions();
       //  firefoxOptions.addArguments("--headless");
       //  firefoxOptions.setCapability("marionette", false);
-        driver = new FirefoxDriver();
+        System.out.println("kkkk");
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        capabilities = DesiredCapabilities.firefox();
+        capabilities.setBrowserName("firefox");
+        capabilities.setCapability("marionette", false);
+
+        driver = new FirefoxDriver(capabilities);
         baseUrl = "https://www.katalon.com/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
@@ -48,8 +60,8 @@ public class Test {
     @org.testng.annotations.Test
     public void testUntitledTestCase() throws Exception {
 
-     /*   driver.get("https://www.rainworx.com/AWDemo31/Account/LogOn?returnUrl=%2FAWDemo31");
-        driver.findElement(By.id("username")).click();
+        driver.get("https://www.rainworx.com/AWDemo31/Account/LogOn?returnUrl=%2FAWDemo31");
+     /*   driver.findElement(By.id("username")).click();
         driver.findElement(By.id("username")).clear();
         driver.findElement(By.id("username")).sendKeys("Admin");
         driver.findElement(By.id("password")).clear();
