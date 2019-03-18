@@ -52,7 +52,7 @@ public class Test {
         capabilities.setBrowserName("firefox");
         capabilities.setCapability("marionette", false);
 
-        driver = new FirefoxDriver(capabilities);
+        driver = new FirefoxDriver();
         baseUrl = "https://www.katalon.com/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
