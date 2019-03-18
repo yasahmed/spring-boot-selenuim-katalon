@@ -34,7 +34,7 @@ public class Test {
     public void setUp() throws Exception {
       //  System.setProperty("webdriver.gecko.driver", "yyyy");
        // System.setProperty("webdriver.firefox.bin", "kkk");
-         System.setProperty("webdriver.firefox.bin", "/tmp/firefox-portable/firefox");
+         System.setProperty("webdriver.firefox.bin", "/tmp/firefox-portable/firefox-portable");
          System.setProperty("webdriver.gecko.driver", "/var/jenkins_home/workspace/toto2/drivers/geckodriver");
 
 
