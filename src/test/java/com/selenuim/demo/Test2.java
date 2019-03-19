@@ -33,8 +33,8 @@ public class Test2 {
         report = new ExtentReports("/var/jenkins_home/workspace/toto7/" + "/test-output/reports/" + "ExtentReportResults.html");
         test = report.startTest("ExtentDemo");
 
-        String phantomjsExeutableFilePath = "C:\\Users\\eessa\\Desktop\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
-         //String phantomjsExeutableFilePath = "/var/jenkins_home/workspace/toto6/phantomjs-2.1.1-linux-x86_64/bin/phantomjs";
+       // String phantomjsExeutableFilePath = "C:\\Users\\eessa\\Desktop\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
+         String phantomjsExeutableFilePath = "/var/jenkins_home/workspace/toto6/phantomjs-2.1.1-linux-x86_64/bin/phantomjs";
         System.setProperty("phantomjs.binary.path", phantomjsExeutableFilePath);
         // Initiate PhantomJSDriver.
         driver = new PhantomJSDriver();
