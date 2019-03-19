@@ -30,11 +30,11 @@ public class Test2 {
     @BeforeClass(alwaysRun = true)
     public void stUp() throws Exception {
 
-        report = new ExtentReports(System.getProperty("user.dir") + "\\test-output\\reports\\ExtentReportResults.html");
+        report = new ExtentReports("/var/jenkins_home/workspace/toto7/" + "/test-output/reports/" + "ExtentReportResults.html");
         test = report.startTest("ExtentDemo");
 
-        //String phantomjsExeutableFilePath = "C:\\Users\\eessa\\Desktop\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
-         String phantomjsExeutableFilePath = "/var/jenkins_home/workspace/toto6/phantomjs-2.1.1-linux-x86_64/bin/phantomjs";
+        String phantomjsExeutableFilePath = "C:\\Users\\eessa\\Desktop\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
+         //String phantomjsExeutableFilePath = "/var/jenkins_home/workspace/toto6/phantomjs-2.1.1-linux-x86_64/bin/phantomjs";
         System.setProperty("phantomjs.binary.path", phantomjsExeutableFilePath);
         // Initiate PhantomJSDriver.
         driver = new PhantomJSDriver();
@@ -81,7 +81,8 @@ public class Test2 {
 
     public static String capture(WebDriver driver) throws IOException {
         File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File Dest = new File(System.getProperty("user.dir") + "\\test-output\\screenShots\\" + System.currentTimeMillis()
+        //System.getProperty("user.dir")
+        File Dest = new File("/var/jenkins_home/workspace/toto7/" + "/test-output/screenShots/" + System.currentTimeMillis()
                 + ".png");
         String errflpath = Dest.getAbsolutePath();
         FileUtils.copyFile(scrFile, Dest);
