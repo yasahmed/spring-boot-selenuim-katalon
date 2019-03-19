@@ -30,7 +30,7 @@ public class Test2 {
     @BeforeClass(alwaysRun = true)
     public void stUp() throws Exception {
 
-        report = new ExtentReports(System.getProperty("user.dir")+"\\test-output\\reports\\ExtentReportResults.html");
+        report = new ExtentReports(System.getProperty("user.dir") + "\\test-output\\reports\\ExtentReportResults.html");
         test = report.startTest("ExtentDemo");
 
         //String phantomjsExeutableFilePath = "C:\\Users\\eessa\\Desktop\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
@@ -42,36 +42,47 @@ public class Test2 {
     }
 
     @Test
-    public void testUntitledTestCase() throws Exception {
-        try{
-            driver.get("https://www.rainworx.com/AWDemo31");
-            driver.findElement(By.linkText("Sign In")).click();
-            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Sign In'])[2]/following::div[2]")).click();
-            driver.findElement(By.id("username")).click();
-            driver.findElement(By.id("username")).clear();
-            driver.findElement(By.id("username")).sendKeys("Admin");
-            driver.findElement(By.id("password")).clear();
-            driver.findElement(By.id("password")).sendKeys("demo");
-            driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Password'])[1]/following::input[4]")).click();
-            driver.findElement(By.id("FullTextQuery1")).click();
-            driver.findElement(By.id("FullTextQuery1")).clear();
-            driver.findElement(By.id("FullTextQuery1")).sendKeys("house");
-            driver.findElement(By.id("FullTextQuery11")).sendKeys(Keys.ENTER);
-            test.log(LogStatus.PASS, "Navigated to the specified URL");
-
-        }catch(Exception e)
-        {
-            test.log(LogStatus.FAIL,test.addScreenCapture(capture(driver))+ "Test Failed");
-
-
-        }
-
+    public void login_OK() throws Exception {
+        driver.get("https://www.rainworx.com/AWDemo31");
+        driver.findElement(By.linkText("Sign In")).click();
+        driver.findElement(By.id("username")).click();
+        driver.findElement(By.id("username")).clear();
+        driver.findElement(By.id("username")).sendKeys("Admin");
+        driver.findElement(By.id("password")).clear();
+        driver.findElement(By.id("password")).sendKeys("demo");
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Password'])[1]/following::input[4]")).click();
+        driver.findElement(By.id("FullTextQuery1")).click();
+        driver.findElement(By.id("FullTextQuery1")).click();
+        // ERROR: Caught exception [ERROR: Unsupported command [doubleClick | id=FullTextQuery1 | ]]
+        driver.findElement(By.id("FullTextQuery1")).clear();
+        driver.findElement(By.id("FullTextQuery1")).sendKeys("house");
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Advanced Search'])[2]/following::button[1]")).click();
     }
+
+
+    @Test
+    public void searchHouse_OK() throws Exception {
+        driver.get("https://www.rainworx.com/AWDemo31/Browse");
+        driver.findElement(By.id("FullTextQuery1")).click();
+        driver.findElement(By.id("FullTextQuery1")).clear();
+        driver.findElement(By.id("FullTextQuery1")).sendKeys("house");
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Advanced Search'])[2]/following::button[1]")).click();
+    }
+
+    @Test
+    public void searchHouse_KO() throws Exception {
+        driver.get("https://www.rainworx.com/AWDemo31/Browse");
+        driver.findElement(By.id("FullTextQuery1")).click();
+        driver.findElement(By.id("FullTextQuery1")).clear();
+        driver.findElement(By.id("FullTextQuery111")).sendKeys("house");
+        driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Advanced Search'])[2]/following::button[1]")).click();
+    }
+
 
     public static String capture(WebDriver driver) throws IOException {
         File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File Dest = new File(System.getProperty("user.dir")+"\\test-output\\screenShots\\" + System.currentTimeMillis()
-                        + ".png");
+        File Dest = new File(System.getProperty("user.dir") + "\\test-output\\screenShots\\" + System.currentTimeMillis()
+                + ".png");
         String errflpath = Dest.getAbsolutePath();
         FileUtils.copyFile(scrFile, Dest);
         return errflpath;
@@ -79,23 +90,19 @@ public class Test2 {
 
 
     @AfterMethod //AfterMethod annotation - This method executes after every test execution
-    public void screenShot(ITestResult result){
+    public void screenShot(ITestResult result) {
         //using ITestResult.FAILURE is equals to result.getStatus then it enter into if condition
-        if(ITestResult.FAILURE==result.getStatus()){
-            try{
-                // To create reference of TakesScreenshot
-                TakesScreenshot screenshot=(TakesScreenshot)driver;
-                // Call method to capture screenshot
-                File src=screenshot.getScreenshotAs(OutputType.FILE);
-                // Copy files to specific location
-                // result.getName() will return name of test case so that screenshot name will be same as test case name
-                FileUtils.copyFile(src, new File("C:\\Users\\eessa\\Desktop\\demo\\screenshots\\"+result.getName()+".png"));
-                System.out.println("Successfully captured a screenshot");
-            }catch (Exception e){
-                System.out.println("Exception while taking screenshot "+e.getMessage());
+        if (ITestResult.FAILURE == result.getStatus()) {
+            try {
+                test.log(LogStatus.FAIL, test.addScreenCapture(capture(driver)) + "Test Failed");
+            } catch (Exception e) {
+                System.out.println("Exception while taking screenshot " + e.getMessage());
             }
+        } else {
+            test.log(LogStatus.PASS, "Navigated to the specified URL");
+
         }
-        driver.quit();
+        // driver.quit();
     }
 
     @AfterClass(alwaysRun = true)
