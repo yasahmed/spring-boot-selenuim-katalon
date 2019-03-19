@@ -4,6 +4,9 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.net.util.Base64;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
@@ -17,28 +20,31 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.nio.charset.StandardCharsets;
 
 public class Test2 {
     WebDriver driver;
-    static ExtentTest test;
-    static ExtentReports report;
-
+    ExtentTest test;
+    ExtentReports report;
 
     @BeforeClass(alwaysRun = true)
     public void stUp() throws Exception {
 
         report = new ExtentReports("/var/jenkins_home/workspace/toto7/" + "/test-output/reports/" + "ExtentReportResults.html");
+        //report = new ExtentReports(System.getProperty("user.dir") + "/test-output/reports/" + "ExtentReportResults.html");
+
         test = report.startTest("ExtentDemo");
 
-       // String phantomjsExeutableFilePath = "C:\\Users\\eessa\\Desktop\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
-         String phantomjsExeutableFilePath = "/var/jenkins_home/workspace/toto6/phantomjs-2.1.1-linux-x86_64/bin/phantomjs";
+        //String phantomjsExeutableFilePath = "C:\\Users\\eessa\\Desktop\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
+        String phantomjsExeutableFilePath = "/var/jenkins_home/workspace/toto6/phantomjs-2.1.1-linux-x86_64/bin/phantomjs";
         System.setProperty("phantomjs.binary.path", phantomjsExeutableFilePath);
-        // Initiate PhantomJSDriver.
         driver = new PhantomJSDriver();
         driver.manage().window().maximize();
+
+        test.setDescription("description du teste !");
+
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"+System.getProperty("user.dir"));
+
     }
 
     @Test
@@ -59,7 +65,6 @@ public class Test2 {
         driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Advanced Search'])[2]/following::button[1]")).click();
     }
 
-
     @Test
     public void searchHouse_OK() throws Exception {
         driver.get("https://www.rainworx.com/AWDemo31/Browse");
@@ -78,32 +83,45 @@ public class Test2 {
         driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Advanced Search'])[2]/following::button[1]")).click();
     }
 
-
-    public static String capture(WebDriver driver) throws IOException {
-        File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        //System.getProperty("user.dir")
-        File Dest = new File("/var/jenkins_home/workspace/toto7/" + "/test-output/screenShots/" + System.currentTimeMillis()
-                + ".png");
-        String errflpath = Dest.getAbsolutePath();
-        FileUtils.copyFile(scrFile, Dest);
-        return errflpath;
-    }
-
-
-    @AfterMethod //AfterMethod annotation - This method executes after every test execution
+    @AfterMethod
     public void screenShot(ITestResult result) {
-        //using ITestResult.FAILURE is equals to result.getStatus then it enter into if condition
         if (ITestResult.FAILURE == result.getStatus()) {
             try {
-                test.log(LogStatus.FAIL, test.addScreenCapture(capture(driver)) + "Test Failed");
+                File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                test.log(LogStatus.FAIL, test.addBase64ScreenShot(ImgStreamToBase64(scrFile)) + generateMessage(result));
             } catch (Exception e) {
                 System.out.println("Exception while taking screenshot " + e.getMessage());
             }
         } else {
-            test.log(LogStatus.PASS, "Navigated to the specified URL");
-
+            test.log(LogStatus.PASS, generateMessage(result));
         }
-        // driver.quit();
+    }
+
+    private String ImgStreamToBase64(File file) throws IOException {
+        byte[] encoded = Base64.encodeBase64(FileUtils.readFileToByteArray(file));
+        String str = new String(encoded, StandardCharsets.US_ASCII);
+        return "data:image/png;base64," + str;
+    }
+
+    private String generateMessage(ITestResult result) {
+        boolean isFailed = ITestResult.FAILURE == result.getStatus();
+        String color = isFailed ? "red" : "green";
+        String messageStatus = isFailed ? " test failed !!" : "test successfully passed :)";
+        String successMsg = "<br/>" +
+                "<div style='color:" + color + ";'> " +
+                "<b> - Class name: " + result.getClass().getName() + "</b>" +
+                "<br/>" +
+                "<b> - Method name : " + result.getName() + "</b> : " + messageStatus +
+                "</div>";
+        if (isFailed) {
+            try {
+                JSONObject detailsJson = new JSONObject(result.getThrowable().getMessage());
+                successMsg += "<b style='color:red'> - Cause : " + detailsJson.get("errorMessage").toString() + "</b>";
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return successMsg;
     }
 
     @AfterClass(alwaysRun = true)
