@@ -30,13 +30,13 @@ public class Test2 {
     @BeforeClass(alwaysRun = true)
     public void stUp() throws Exception {
 
-        report = new ExtentReports("/var/jenkins_home/workspace/toto7/" + "/test-output/reports/" + "ExtentReportResults.html");
+        report = new ExtentReports(System.getProperty("user.dir") + "/test-output/reports/" + "ExtentReportResults.html");
         //report = new ExtentReports(System.getProperty("user.dir") + "/test-output/reports/" + "ExtentReportResults.html");
 
         test = report.startTest("ExtentDemo");
 
         //String phantomjsExeutableFilePath = "C:\\Users\\eessa\\Desktop\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe";
-        String phantomjsExeutableFilePath = "/var/jenkins_home/workspace/toto6/phantomjs-2.1.1-linux-x86_64/bin/phantomjs";
+        String phantomjsExeutableFilePath = System.getProperty("user.dir")+"/phantomjs-2.1.1-linux-x86_64/bin/phantomjs";
         System.setProperty("phantomjs.binary.path", phantomjsExeutableFilePath);
         driver = new PhantomJSDriver();
         driver.manage().window().maximize();
